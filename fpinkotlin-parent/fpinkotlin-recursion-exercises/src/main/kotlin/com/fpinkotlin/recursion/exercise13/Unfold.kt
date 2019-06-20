@@ -22,6 +22,8 @@ fun <T, U> foldLeft(list: List<T>, z: U, f: (U, T) -> U): U {
     return foldLeft_(list, z, f)
 }
 
-fun <T> prepend(list: List<T>, elem: T): List<T> = foldLeft(list, listOf(elem)) { lst, elm -> lst + elm }
+fun <T> prepend(list: List<T>, elem: T): List<T> =
+    foldLeft(list, listOf(elem)) { lst, elm -> lst + elm }
 
-fun <T> unfold(seed: T, f: (T) -> T, p: (T) -> Boolean): List<T> = TODO("unfold")
+fun <T> unfold(seed: T, f: (T) -> T, p: (T) -> Boolean): List<T> =
+    if (!p(seed)) emptyList() else prepend(unfold(f(seed), f, p), seed)

@@ -1,6 +1,12 @@
 package com.fpinkotlin.recursion.exercise04
 
-fun string(list: List<Char>): String = TODO("string")
+fun string(list: List<Char>): String {
+    tailrec fun go(r: String, list: List<Char>): String = when {
+        list.isEmpty() -> r
+        else -> go("$r${ list.head() }", list.tail())
+    }
+    return go("", list)
+}
 
 fun <T> List<T>.head(): T =
         if (this.isEmpty())

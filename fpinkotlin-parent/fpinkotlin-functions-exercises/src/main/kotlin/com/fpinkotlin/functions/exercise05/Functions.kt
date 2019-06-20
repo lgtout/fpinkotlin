@@ -13,5 +13,7 @@ val add: (Int) -> (Int) -> Int = { a -> { b -> a + b} }
 
 val compose = { x: (Int) -> Int -> { y: (Int) -> Int -> { z: Int -> x(y(z)) } } }
 
-fun higherCompose() = null // Define a value function composing two (Int) -> Int functions
+// Define a value function composing two (Int) -> Int functions
+fun <A, B, C> higherCompose(): ((B) -> C) -> ((A) -> B) -> ((A) -> C) =
+    { a -> { b -> { c -> a(b(c)) } } }
 

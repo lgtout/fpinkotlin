@@ -1,6 +1,11 @@
 package com.fpinkotlin.recursion.exercise06
 
-fun <T, U> foldRight(list: List<T>, identity: U, f: (T, U) -> U): U = TODO("foldRight")
+fun <T, U> foldRight(list: List<T>, identity: U, f: (T, U) -> U): U {
+    fun go(list: List<T>): U =
+        if (list.isEmpty()) identity
+        else f(list.head(), go(list.tail()))
+    return go(list)
+}
 
 fun <T> List<T>.head(): T =
         if (this.isEmpty())
