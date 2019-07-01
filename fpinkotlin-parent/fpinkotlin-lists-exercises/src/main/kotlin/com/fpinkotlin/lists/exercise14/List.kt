@@ -18,6 +18,8 @@ sealed class List<out A> {
 
     fun concatViaFoldRight(list: List<@UnsafeVariance A>): List<A> = concatViaFoldRight(this, list)
 
+    fun concatViaFoldLeft(list: List<@UnsafeVariance A>): List<A> = concatViaFoldLeft(this, list)
+
     fun drop(n: Int): List<A> = drop(this, n)
 
     fun dropWhile(p: (A) -> Boolean): List<A> = dropWhile(this, p)
@@ -72,9 +74,14 @@ sealed class List<out A> {
             is Cons -> if (p(list.head)) dropWhile(list.tail, p) else list
         }
 
-        fun <A> concat(list1: List<A>, list2: List<A>): List<A> = list1.reverse().foldLeft(list2) { x -> x::cons }
+        fun <A> concatViaFoldRight(list1: List<A>, list2: List<A>): List<A> =
+            foldRight(list1, list2) { a -> { acc -> acc.cons(a) } }
 
-        fun <A> concatViaFoldRight(list1: List<A>, list2: List<A>): List<A> = TODO("concatViaFoldRight")
+        fun <A> concatViaFoldLeft(list1: List<A>, list2: List<A>): List<A> =
+            foldLeft(list2, list1.reverse()) { it::cons }
+
+        // Same as concatViaFoldLeft
+        fun <A> concat(list1: List<A>, list2: List<A>): List<A> = list1.reverse().foldLeft(list2) { x -> x::cons }
 
         fun <A, B> foldRight(list: List<A>, identity: B, f: (A) -> (B) -> B): B =
                 when (list) {

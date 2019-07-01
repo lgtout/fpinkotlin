@@ -14,7 +14,7 @@ sealed class List<A> {
 
     fun drop(n: Int): List<A> = drop(this, n)
 
-    fun dropWhile(p: (A) -> Boolean): List<A> = TODO("dropWhile")
+    fun dropWhile(p: (A) -> Boolean): List<A> = dropWhile(this, p)
 
     internal object Nil: List<Nothing>() {
 
@@ -44,7 +44,7 @@ sealed class List<A> {
 
         private tailrec fun <A> dropWhile(list: List<A>, p: (A) -> Boolean): List<A> = when (list) {
             Nil -> list
-            is Cons -> if (p(list.head)) dropWhile(list.tail, p) else list
+            is Cons -> if (!p(list.head)) list else dropWhile(list.tail, p)
         }
 
         operator fun <A> invoke(vararg az: A): List<A> =

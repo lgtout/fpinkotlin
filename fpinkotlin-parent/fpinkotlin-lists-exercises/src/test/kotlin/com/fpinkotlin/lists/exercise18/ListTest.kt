@@ -9,9 +9,19 @@ class ListTest: StringSpec() {
 
     init {
 
-        "map" {
+        "mapViaFoldLeft" {
             forAll(IntListGenerator()) { pair ->
-                sum(pair.second.map { it * 3 }) == sum(pair.second) * 3
+                sum(pair.second.mapViaFoldLeft { it * 3 }) == sum(pair.second) * 3
+            }
+        }
+        "mapViaFoldRight" {
+            forAll(IntListGenerator()) { pair ->
+                sum(pair.second.mapViaFoldRight { it * 3 }) == sum(pair.second) * 3
+            }
+        }
+        "mapViaCoFoldRight" {
+            forAll(IntListGenerator()) { pair ->
+                sum(pair.second.mapViaCoFoldRight { it * 3 }) == sum(pair.second) * 3
             }
         }
     }
@@ -31,6 +41,6 @@ fun main(args: Array<String>) {
     val array = Array(testLimit) {i -> i.toLong() }
     val testList: List<Long> = List(*array)
     val start = System.currentTimeMillis()
-    testList.map { it * 2 }
+    testList.mapViaFoldLeft { it * 2 }
     println(System.currentTimeMillis() - start)
 }

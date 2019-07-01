@@ -2,6 +2,9 @@ package com.fpinkotlin.lists.exercise15
 
 
 import com.fpinkotlin.lists.exercise15.List.Companion.flatten
+import com.fpinkotlin.lists.exercise15.List.Companion.flattenViaCoFoldRight
+import com.fpinkotlin.lists.exercise15.List.Companion.flattenViaFoldLeft
+import com.fpinkotlin.lists.exercise15.List.Companion.flattenViaFoldRight
 import io.kotlintest.properties.Gen
 import io.kotlintest.properties.forAll
 import io.kotlintest.specs.StringSpec
@@ -11,10 +14,24 @@ class ListTest: StringSpec() {
 
     init {
 
-        "flatten" {
+        "flattenViaCoFoldRight" {
             forAll(100, IntListListGenerator()) { list ->
                 val sum1 = list.foldLeft("") { x -> { y -> x + y.foldLeft("") { a -> { b -> a + b } } } }
-                val sum2 = flatten(list).foldLeft("") { a -> { b -> a + b } }
+                val sum2 = flattenViaCoFoldRight(list).foldLeft("") { a -> { b -> a + b } }
+                sum1 == sum2
+            }
+        }
+        "flattenViaFoldRight" {
+            forAll(100, IntListListGenerator()) { list ->
+                val sum1 = list.foldLeft("") { x -> { y -> x + y.foldLeft("") { a -> { b -> a + b } } } }
+                val sum2 = flattenViaFoldRight(list).foldLeft("") { a -> { b -> a + b } }
+                sum1 == sum2
+            }
+        }
+        "flattenViaFoldLeft" {
+            forAll(100, IntListListGenerator()) { list ->
+                val sum1 = list.foldLeft("") { x -> { y -> x + y.foldLeft("") { a -> { b -> a + b } } } }
+                val sum2 = flattenViaFoldLeft(list).foldLeft("") { a -> { b -> a + b } }
                 sum1 == sum2
             }
         }

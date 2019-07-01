@@ -4,7 +4,7 @@ sealed class List<A> {
 
     abstract fun isEmpty(): Boolean
 
-    fun cons(a: A): List<A> = TODO("cons")
+    fun cons(a: A): List<A> = Cons(a, this)
 
     private object Nil: List<Nothing>() {
 
@@ -30,4 +30,8 @@ sealed class List<A> {
         operator fun <A> invoke(vararg az: A): List<A> =
                 az.foldRight(Nil as List<A>) { a: A, list: List<A> -> Cons(a, list) }
     }
+}
+
+fun main() {
+
 }

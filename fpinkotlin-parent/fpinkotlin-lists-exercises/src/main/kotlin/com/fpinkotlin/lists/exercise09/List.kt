@@ -24,7 +24,7 @@ sealed class List<out A> {
 
     fun <B> foldRight(identity: B, f: (A) -> (B) -> B): B = foldRight(this, identity, f)
 
-    fun <B> foldLeft(identity: B, f: (B) -> (A) -> B): B = TODO("foldLeft")
+    fun <B> foldLeft(identity: B, f: (B) -> (A) -> B): B = foldLeft(this, identity, f)
 
     fun length(): Int = foldRight(0) { { it + 1} }
 
@@ -81,11 +81,12 @@ sealed class List<out A> {
                     is Cons -> f(list.head)(foldRight(list.tail, identity, f))
                 }
 
-        tailrec fun <A, B> foldLeft(acc: B, list: List<A>, f: (B) -> (A) -> B): B =
-                when (list) {
-                    Nil -> acc
-                    is Cons -> foldLeft(f(acc)(list.head), list.tail, f)
-                }
+        tailrec fun <A, B> foldLeft(list: List<A>, identity: B, f: (B) -> (A) -> B): B {
+            return when (list) {
+                Nil -> identity
+                is Cons -> foldLeft(list.tail, f(identity)(list.head), f)
+            }
+        }
 
         operator fun <A> invoke(vararg az: A): List<A> =
                 az.foldRight(Nil) { a: A, list: List<A> -> Cons(a, list) }

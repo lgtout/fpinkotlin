@@ -9,9 +9,14 @@ class ListTest: StringSpec() {
 
     init {
 
-        "filter" {
+        "filterViaFoldLeft" {
             forAll(IntListGenerator()) { (array, list) ->
-                sum(list.filter { it % 2 == 0 }) == array.fold(0) { a, b -> a + if (b % 2 == 0) b else 0 }
+                sum(list.filterViaFoldLeft { it % 2 == 0 }) == array.fold(0) { a, b -> a + if (b % 2 == 0) b else 0 }
+            }
+        }
+        "filterViaCoFoldRight" {
+            forAll(IntListGenerator()) { (array, list) ->
+                sum(list.filterViaCoFoldRight { it % 2 == 0 }) == array.fold(0) { a, b -> a + if (b % 2 == 0) b else 0 }
             }
         }
     }

@@ -24,6 +24,13 @@ class ListTest: StringSpec() {
                 sum(concat1) == sum(concat2)
             }
         }
+        "concatViaFoldLeft" {
+            forAll(IntListGenerator(), IntListGenerator()) { (_, list1), (_, list2) ->
+                val concat1 = list1.concatViaFoldLeft(list2).drop(1)
+                val concat2 = list2.reverse().concatViaFoldLeft(list1.reverse()).reverse().drop(1)
+                sum(concat1) == sum(concat2)
+            }
+        }
     }
 }
 

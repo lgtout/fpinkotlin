@@ -9,9 +9,14 @@ class ListTest: StringSpec() {
 
     init {
 
-        "triple" {
+        "tripleViaFoldLeft" {
             forAll(IntListGenerator()) { pair ->
-                sum(triple(pair.second)) == sum(pair.second) * 3
+                sum(tripleViaFoldLeft(pair.second)) == sum(pair.second) * 3
+            }
+        }
+        "tripleViaFoldRight" {
+            forAll(IntListGenerator()) { pair ->
+                sum(tripleViaFoldRight(pair.second)) == sum(pair.second) * 3
             }
         }
     }
